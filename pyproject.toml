@@ -6,6 +6,7 @@ version = "0.1.0"
 description = "Description"
 authors = ["MagneticNeedle <solankivibhakar82@gmail.com>", "SockYeh <sahranashfaq@gmail.com>"]
 license = "MIT"
+packages = [{include = "*", from="src"}]
 
 [tool.poetry.dependencies]
 python = "3.12.*"
