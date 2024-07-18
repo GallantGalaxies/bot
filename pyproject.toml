@@ -2,7 +2,7 @@
 
 [tool.poetry]
 name = "cj2024_discord_bot"
-version = "0.1.0"
+version = "0.1.1"
 description = "Description"
 authors = ["MagneticNeedle <solankivibhakar82@gmail.com>", "SockYeh <sahranashfaq@gmail.com>"]
 license = "MIT"
