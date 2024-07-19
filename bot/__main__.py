@@ -42,6 +42,7 @@ bot = InteractionsBot(intents=intents)
 async def on_ready() -> None:
     """Run when client has logged in."""
     print(f"Logged in as {bot.user} (ID: {bot.user.id})")
+    print(list(bot.cogs))
     print("------")
 
 
@@ -72,4 +73,10 @@ async def send_message_length(interaction: discord.Interaction, message: discord
     await interaction.response.send_message(f"Message Length is {len(message.content)}", ephemeral=True)
 
 
-bot.run(env.DISCORD_BOT_TOKEN)
+def start() -> None:
+    """Entry point for poetry."""
+    bot.run(env.DISCORD_BOT_TOKEN)
+
+
+if __name__ == "__main__":
+    start()
