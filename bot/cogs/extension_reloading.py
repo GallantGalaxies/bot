@@ -32,6 +32,8 @@ class ReloaderCog(commands.Cog):
         response_embed.add_field(name="Cog Name", value=cog_name.name, inline=True)
         response_embed.add_field(name="status", value="🔄")
         await interaction.response.send_message(embeds=[response_embed])
+
+        # TODO: add error handling for if reloading extension fails.
         await self.bot.reload_extension(f"bot.cogs.{cog_name.name}")
 
         response_embed.remove_field(1)
