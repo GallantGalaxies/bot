@@ -4,7 +4,7 @@
 name = "cj2024_discord_bot"
 version = "0.1.1"
 description = "Description"
-authors = ["MagneticNeedle <solankivibhakar82@gmail.com>", "SockYeh <sahranashfaq@gmail.com>", "vipinkarthic <vipinkarthic17112005@gmai.com>"]
+authors = ["MagneticNeedle <solankivibhakar82@gmail.com>", "SockYeh <sahranashfaq@gmail.com>", "vipinkarthic <vipinkarthic17112005@gmai.com>" , "nugget <kunalyadav06112003@gmail.com"]
 license = "MIT"
 packages = [{include = "bot", from="."}]
 
