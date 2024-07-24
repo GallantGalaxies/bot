@@ -13,7 +13,7 @@ class LibraryMenuCog(commands.Cog):
     async def send_ui(self, interaction: discord.Interaction) -> None:
         """Return interaction response for Library UI."""
         response: discord.InteractionResponse = interaction.response  # type: ignore[attr-defined]
-        await response.send_message("Not Yet Implemented!!, Changed", ephemeral=True)
+        await response.send_message("Not Yet Implemented!!", ephemeral=True)
 
 
 async def setup(bot: commands.Bot) -> None:
