@@ -1,5 +1,3 @@
-from pathlib import Path
-
 import discord
 from discord.ext import commands
 from dotenv import load_dotenv
@@ -7,6 +5,7 @@ from dotenv import load_dotenv
 if True:
     load_dotenv()
 
+from bot.cogs import cogs_list
 from bot.env import env
 
 print(f"Logging level {env.LOGGING_LEVEL}")
@@ -26,10 +25,9 @@ class InteractionsBot(commands.Bot):
     # By doing so, we don't have to wait up to an hour until they are shown to the end-user.
     async def setup_hook(self) -> None:
         """Copy the global commands over to your guild."""
-        cog_files = list(filter(lambda x: x.stem != "__init__", (Path(__file__).parent / "cogs").glob("*.py")))
-        for file in cog_files:
-            print(f"loading {file.name}")
-            await self.load_extension(f"bot.cogs.{file.stem}")
+        for cog in cogs_list:
+            print(f"loading {cog}")
+            await self.load_extension(f"bot.cogs.{cog}")
         self.tree.copy_global_to(guild=GUILD)
         await self.tree.sync(guild=GUILD)
 

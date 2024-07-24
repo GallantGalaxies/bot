@@ -1,16 +1,11 @@
 import secrets
 from enum import Enum
-from pathlib import Path
 
 import discord
 from discord import app_commands
 from discord.ext import commands
 
-cogs_blacklist = ["__init__"]
-cogs_list = " ".join(
-    [cog_file.stem for cog_file in filter(lambda x: x.stem not in cogs_blacklist, Path(__file__).parent.glob("*.py"))],
-)
-
+from . import cogs_list
 
 CogsEnum = Enum("CogsEnum", cogs_list)
 
