@@ -13,6 +13,8 @@ python = "3.12.*"
 discord-py = "^2.4.0"
 python-dotenv = "^1.0.1"
 pydantic-settings = "^2.3.4"
+colorednoise = "^2.2.0"
+sounddevice = "^0.4.7"
 
 [tool.poetry.dev-dependencies]
 ruff = "~0.5.0"
