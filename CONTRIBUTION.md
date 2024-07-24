@@ -1,0 +1,12 @@
+## How to add new cog to the bot?
+- If the cog is a single file
+  - Add file in `bot/cogs` directory
+- If the cog is a directory
+  - Create python package in `bot/cogs` directory
+  - In the cog's `__init__.py` file
+    - Import Cog class and Setup function
+    - Add both to `__all__` list
+- In `bot/cogs/__init__.py` file
+  - Add the cog name to `cogs_list`
+    - Cog name here means the name of the file or directory
+    - see existing cogs for reference
