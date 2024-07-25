@@ -28,7 +28,6 @@ class PlayerMenuCog(commands.GroupCog, name="player", description="Player comman
     async def join(self, interaction: discord.Interaction) -> None:
         """Join the Voice channel of user."""
         response: discord.InteractionResponse = interaction.response  # type: ignore[attr-defined]
-        # check if user is in a voice channel
         if interaction.user.voice is None:
             await response.send_message("Please join a Voice Channel 🙂", ephemeral=True)
             return
@@ -108,6 +107,13 @@ class PlayerMenuCog(commands.GroupCog, name="player", description="Player comman
         """Play the previous preset in the library."""
         response: discord.InteractionResponse = interaction.response  # type: ignore[attr-defined]
         await response.send_message("Not Yet Implemented!!", ephemeral=True)
+
+    @app_commands.command(name="volume", description="Set volume of player")
+    async def volume(self, interaction: discord.Interaction, volume: float) -> None:
+        """Set the volume of the player."""
+        response: discord.InteractionResponse = interaction.response  # type: ignore[attr-defined]
+        self.voice_client.source.volume = volume if 0 <= volume <= 1 else 0.5
+        await response.send_message(f"Volume set to {volume}", ephemeral=True)
 
 
 async def setup(bot: commands.Bot) -> None:
