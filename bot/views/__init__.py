@@ -1,3 +1,3 @@
 __all__ = ["BaseView"]
 
-from baseview import BaseView
+from .baseview import BaseView
