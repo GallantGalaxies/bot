@@ -28,6 +28,7 @@ class PlayerMenuCog(commands.GroupCog, name="player", description="Player comman
     async def join(self, interaction: discord.Interaction) -> None:
         """Join the Voice channel of user."""
         response: discord.InteractionResponse = interaction.response  # type: ignore[attr-defined]
+        # check if user is in a voice channel
         if interaction.user.voice is None:
             await response.send_message("Please join a Voice Channel 🙂", ephemeral=True)
             return
