@@ -2,7 +2,8 @@ from typing import TYPE_CHECKING
 
 import discord
 from discord.utils import MISSING
-from items import BaseButton, BaseDropdown
+
+from bot.items import BaseButton, BaseDropdown
 
 if TYPE_CHECKING:
     from discord import Embed
