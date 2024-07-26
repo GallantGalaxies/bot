@@ -1,3 +1,3 @@
 __all__ = ["BaseEmbed"]
 
-from basembed import BaseEmbed
+from .basembed import BaseEmbed
