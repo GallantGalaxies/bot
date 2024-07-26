@@ -55,7 +55,7 @@ class BaseView(discord.ui.View):
         attachments: list[discord.File] = MISSING,
         view: "View" = MISSING,
         ephemeral: bool = False,
-        delete_after: int = MISSING,
+        delete_after: float | None = None,
         edit: bool = False,
     ) -> None:
         """Send view to interaction.
@@ -73,7 +73,18 @@ class BaseView(discord.ui.View):
             edit (bool, optional): The edit of the message. Defaults to False.
 
         """
+        if view is MISSING:
+            view = self
+
         if edit:
+            await self.interaction.response.edit_message(
+                content=content,
+                embed=embed,
+                view=view,
+                delete_after=delete_after,
+                attachments=attachments,
+            )
+        else:
             await self.interaction.response.send_message(
                 content=content,
                 embed=embed,
@@ -82,19 +93,11 @@ class BaseView(discord.ui.View):
                 delete_after=delete_after,
                 files=attachments,
             )
-        else:
-            await self.interaction.response.edit_message(
-                content=content,
-                embed=embed,
-                view=view,
-                delete_after=delete_after,
-                attachments=attachments,
-            )
 
     async def on_timeout(self) -> None:
         """Remove view on timeout."""
         self.clear_items()
-        await self.interaction.response.edit_message(
+        await self.interaction.edit_original_response(
             view=self,
         )
 
@@ -114,7 +117,7 @@ class BaseView(discord.ui.View):
             view=view_class,
         )
 
-    async def _add_buttons(self, buttons: list[BaseButton]) -> None:
+    def _add_buttons(self, buttons: list[BaseButton]) -> None:
         """Add buttons to the view.
 
         Args:
@@ -125,7 +128,7 @@ class BaseView(discord.ui.View):
         for button in buttons:
             self.add_item(button)
 
-    async def _add_dropdowns(self, dropdowns: list[BaseDropdown]) -> None:
+    def _add_dropdowns(self, dropdowns: list[BaseDropdown]) -> None:
         """Add dropdowns to the view.
 
         Args:

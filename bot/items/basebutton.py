@@ -30,9 +30,8 @@ class BaseButton(discord.ui.Button):  # type: ignore  # noqa: PGH003
         self,
         *,
         label: str,
-        button_callback: ButtonCallback,
-        disabled: bool = False,
         custom_id: str,
+        disabled: bool = False,
         row: int | None = None,
         button_style: discord.ButtonStyle = discord.ButtonStyle.green,
     ) -> None:
@@ -43,8 +42,8 @@ class BaseButton(discord.ui.Button):  # type: ignore  # noqa: PGH003
             row=row,
             style=button_style,
         )
-        self.button_callback = button_callback
 
-    async def callback(self, interaction: discord.Interaction) -> None:
+    async def callback(self, interaction: discord.Interaction) -> None:  # noqa: ARG002
         """Call the button callback."""
-        await self.button_callback(interaction=interaction)
+        msg = "Button callback not implemented."
+        raise NotImplementedError(msg)
