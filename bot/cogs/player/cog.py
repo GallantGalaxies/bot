@@ -5,6 +5,8 @@ from discord import app_commands
 from discord._types import ClientT
 from discord.ext import commands
 
+from . import player_ui
+
 
 class PlayerMenuCog(commands.GroupCog, name="player", description="Player commands"):
     """Cog to handle `/player` command."""
@@ -21,8 +23,7 @@ class PlayerMenuCog(commands.GroupCog, name="player", description="Player comman
     @app_commands.command(name="show", description="Show player")
     async def show(self, interaction: discord.Interaction) -> None:
         """Return interaction response for Player UI."""
-        response: discord.InteractionResponse = interaction.response  # type: ignore[attr-defined]
-        await response.send_message("Not Yet Implemented!!", ephemeral=True)
+        await player_ui.PlayerShowView(interaction=interaction, voice_client=self.voice_client).send()
 
     @app_commands.command(name="join", description="Join voice channel")
     async def join(self, interaction: discord.Interaction) -> None:

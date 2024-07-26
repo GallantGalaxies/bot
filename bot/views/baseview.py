@@ -3,13 +3,12 @@ from typing import TYPE_CHECKING
 import discord
 from discord.utils import MISSING
 
+from bot.embeds import BaseEmbed
 from bot.items import BaseButton, BaseDropdown
 
 if TYPE_CHECKING:
     from discord import Embed
     from discord.ui import View
-
-    from bot.embeds import BaseEmbed
 
 
 class BaseView(discord.ui.View):
@@ -27,11 +26,15 @@ class BaseView(discord.ui.View):
         self,
         interaction: discord.Interaction,
         user: int,
-        timeout: int = 180,
+        timeout: float | None = 180,
+        embed: BaseEmbed | None = None,
+        content: str | None = None,
     ) -> None:
         super().__init__(timeout=timeout)
         self.interaction = interaction
         self.user = user
+        self.embed: BaseEmbed | None = embed
+        self.content: str | None = content
 
     async def interaction_check(
         self,
@@ -73,22 +76,19 @@ class BaseView(discord.ui.View):
             edit (bool, optional): The edit of the message. Defaults to False.
 
         """
-        if view is MISSING:
-            view = self
-
         if edit:
             await self.interaction.response.edit_message(
-                content=content,
-                embed=embed,
-                view=view,
+                content=content or self.content,
+                embed=embed or self.embed,
+                view=view or self,
                 delete_after=delete_after,
                 attachments=attachments,
             )
         else:
             await self.interaction.response.send_message(
-                content=content,
-                embed=embed,
-                view=view,
+                content=content or self.content,
+                embed=embed or self.embed,
+                view=view or self,
                 ephemeral=ephemeral,
                 delete_after=delete_after,
                 files=attachments,

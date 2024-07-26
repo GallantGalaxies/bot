@@ -4,10 +4,10 @@ import discord
 class BaseEmbed(discord.Embed):
     """Base class for all embeds."""
 
-    def __init__(self, title: str, description: str) -> None:
+    def __init__(self, title: str, description: str | None = None) -> None:
         super().__init__(title=title, description=description)
         self.set_footer(
-            text="Made by the Galant Galaxies",
+            text="Made by the Gallant Galaxies",
         )
 
     def add_image(self, file: discord.File) -> None:
