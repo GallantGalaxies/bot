@@ -68,8 +68,6 @@ ignore = [
     # Annotations.
     "ANN101",
     "ANN102",
-    # Copyright
-    "CPY001",
     # FUNCTION DEFS
     "PLR0913"
 ]
