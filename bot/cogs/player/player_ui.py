@@ -1,6 +1,7 @@
 import discord
 
 from bot.embeds import BaseEmbed
+from bot.env import env
 from bot.items import BaseButton
 from bot.views import BaseView
 
@@ -28,7 +29,8 @@ class PlayPauseButton(BaseButton):
             # this will run when the user has completed the song
             # or no song has been played
             view.voice_client.play(
-                discord.FFmpegPCMAudio("/home/gala/projects/codejams/pydis/pycj2024/bot/bot/cogs/player/song.flac"),
+                discord.FFmpegPCMAudio(env.PROJECT_ROOT.joinpath("sounds/brown_noise.ogg").as_posix()),
+                after=view.preset_play_completion_callback,
             )
 
         # update embed after changing the state of the player
@@ -42,12 +44,15 @@ class PlayerEmbed(BaseEmbed):
 
     def __init__(self, voice_client: discord.VoiceClient) -> None:
         super().__init__(title="Player UI")
-        EMBED_FIELDS = {  # noqa: N806
-            "Channel": voice_client.channel.mention if voice_client.channel is not None else "Not Connected",
-            "Status": "Not Playing"
-            if voice_client.source is None
-            else ("Playing" if voice_client.is_playing() else "Paused"),
-        }
+        if voice_client is None:
+            EMBED_FIELDS = {"Channel": "Not Connected", "Status": "Not Playing"}  # noqa: N806
+        else:
+            EMBED_FIELDS = {  # noqa: N806
+                "Channel": voice_client.channel.mention if voice_client.channel is not None else "Not Playing",
+                "Status": "Not Playing"
+                if voice_client.source is None
+                else ("Playing" if voice_client.is_playing() else "Paused"),
+            }
 
         for name, value in EMBED_FIELDS.items():
             self.add_field(name=name, value=value, inline=False)
@@ -68,3 +73,15 @@ class PlayerShowView(BaseView):
         self.voice_client = voice_client
         buttons = [PlayPauseButton()]
         self._add_buttons(buttons)
+
+    def preset_play_completion_callback(self, error: Exception | None) -> None:
+        """Handle completion of preset play."""
+        if error:
+            print(f"An error occurred: {error}")
+        # TODO: Loop the preset
+        if self.voice_client:
+            self.voice_client.play(
+                discord.FFmpegPCMAudio(env.PROJECT_ROOT.joinpath("sounds/brown_noise.ogg").as_posix()),
+                after=self.preset_play_completion_callback,
+            )
+        print("Preset play completed!!")
