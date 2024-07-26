@@ -9,9 +9,9 @@ class PlayerMenuCog(commands.Cog):
     def __init__(self, bot: commands.Bot) -> None:
         self.bot = bot
 
-    @app_commands.command(name="preset", description="Edit a Preset")
+    @app_commands.command(name="player", description="Show player")
     async def send_ui(self, interaction: discord.Interaction) -> None:
-        """Return interaction response for Preset UI."""
+        """Return interaction response for Player UI."""
         response: discord.InteractionResponse = interaction.response  # type: ignore[attr-defined]
         await response.send_message("Not Yet Implemented!!", ephemeral=True)
 
