@@ -23,6 +23,18 @@ class PlayerMenuCog(commands.GroupCog, name="player", description="Player comman
     @app_commands.command(name="show", description="Show player")
     async def show(self, interaction: discord.Interaction) -> None:
         """Return interaction response for Player UI."""
+        if interaction.user.voice is None:
+            await interaction.response.send_message("Please join a Voice Channel 🙂", ephemeral=True)
+            return
+
+        voice_channel: discord.VoiceChannel = interaction.user.voice.channel
+        if self.voice_client:
+            await player_ui.PlayerShowView(interaction=interaction, voice_client=self.voice_client).send()
+            return
+
+        self.voice_client: discord.VoiceClient = await voice_channel.connect(self_deaf=True)
+        voice_channel: discord.VoiceChannel = self.voice_client.channel
+
         await player_ui.PlayerShowView(interaction=interaction, voice_client=self.voice_client).send()
 
     @app_commands.command(name="join", description="Join voice channel")
@@ -63,7 +75,7 @@ class PlayerMenuCog(commands.GroupCog, name="player", description="Player comman
             return
 
         self.voice_client.play(
-            discord.FFmpegPCMAudio(Path(__file__).joinpath("song.flac").as_posix()),
+            discord.PCMVolumeTransformer(discord.FFmpegPCMAudio(Path(__file__).joinpath("song.flac").as_posix())),
         )
         await response.send_message(f"Playing preset in {self.voice_client.channel.mention}", ephemeral=True)
 
@@ -114,8 +126,8 @@ class PlayerMenuCog(commands.GroupCog, name="player", description="Player comman
     async def volume(self, interaction: discord.Interaction, volume: float) -> None:
         """Set the volume of the player."""
         response: discord.InteractionResponse = interaction.response  # type: ignore[attr-defined]
-        self.voice_client.source.volume = volume if 0 <= volume <= 1 else 0.5
-        await response.send_message(f"Volume set to {volume}", ephemeral=True)
+        self.voice_client.source.volume = volume if 0 <= volume / 100 <= 1 else 0.5
+        await response.send_message(f"Volume set to {round(volume)}%", ephemeral=True)
 
 
 async def setup(bot: commands.Bot) -> None:
